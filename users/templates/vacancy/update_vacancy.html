@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %} Vacansiyani taxrirlash {% endblock %}
+
+{% block content %}
+
+    <h2>Vakansiya taxrirlash</h2>
+    <div class="row">
+        <div class="col-6">
+            <form action="" method="post">
+                {% csrf_token %}
+                {{ form | crispy  }}
+                <button type="submit" class="btn btn-primary">Saqlash</button>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %} {{ vacancy.name }} {% endblock %}
+
+{% block content %}
+    {#<b>Vacansiya nomi</b> {{ vacancy.name }} <br>#}
+    {#<b>Qabul yopilishiga qolgan vaqt</b> {{ vacancy.end_at }}<br>#}
+    {#<b>Shtat jadvali bo‘yicha</b> {{ vacancy.style }}<br>#}
+    {#<b>MALAKAVIY TALABLAR</b> {{ vacancy.qualification }}<br>#}
+    {#<b>LAVOZIMIY MAJBURIYATLARI</b> {{ vacancy.job_duties }}<br>#}
+    {#<b>ISH SHAROITLARI</b> {{ vacancy.opportunities }}<br>#}
+    {##}
+
+            <header>
+            <h1>Bo'lim boshlig'i (boshqa tarmoqlarda)</h1>
+                {% if request.user.is_manager %}
+                    <a class="apply-button" href="{% url 'users:update_vacancy' vacancy.id %}">Taxrirlash</a>
+
+                {% elif request.user.is_kadr %}
+                    <div>
+                        <a class="apply-button" href="{% url 'users:update_vacancy' vacancy.id %}">Taxrirlash</a>
+                        {% if vacancy.active %}
+                            <a class="apply-button-danger" href="{% url 'users:vacancy_delete' vacancy.id %}">Disable</a>
+                        {% else %}
+                            <a class="apply-button-success" href="{% url 'users:vacancy_delete' vacancy.id %}">Enable</a>
+                        {% endif %}
+                    </div>
+
+                {% elif request.user.is_employee %}
+                    <button class="apply-button">Ariza yuborish</button>
+                {% endif  %}
+        </header>
+        <section class="job-details">
+            <div class="job-header">
+                <div class="job-type">
+                    <h2>{{ vacancy.name }}</h2>
+                    {% if vacancy.style == 'FL' %}
+                        <b>To'liq band</b>
+                    {% elif vacancy.style == 'RT' %}
+                        <b>Masofaviy</b>
+                    {% elif vacancy.style == 'PT' %}
+                        <b>To'liq bo'lmagan</b>
+                    {% endif %}
+                </div>
+                <div class="job-timing">
+                    <h3>Qabul yopilishiga qolgan vaqt</h3>
+                    <p>{{ remaining_days }} kun</p>
+                </div>
+            </div>
+            <div class="requirements">
+                <h3>MALAKAVIY TALABLAR</h3>
+                <p>{{ vacancy.qualification|linebreaks }}</p>
+            </div>
+            <div class="duties">
+                <h3>LAVOZIMIY MAJBURIYATLARI</h3>
+                <p>{{ vacancy.job_duties|linebreaks }}</p>
+            </div>
+            <div class="opportunities">
+                <h3>ISH SHAROITLARI</h3>
+                <p>{{ vacancy.opportunities|linebreaks }}</p>
+            </div>
+        </section>
+{% endblock %}
+

@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+    <h1 class="mt-5">Tashkilotimizdagi mavjud bo'sh ish o'rinlari</h1>
+    <div class="row">
+        <div class="col-6 mt-3">
+            <ul>
+                {% for vacancy in vacancies %}
+                    <li>
+                        <a href="{% url 'users:detail' vacancy.id %}">
+                          <h3>{{ vacancy.name }}</h3>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+{% endblock content %}
